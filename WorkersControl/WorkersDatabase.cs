@@ -11,8 +11,8 @@ namespace WorkersControl
 
 
         
-        Worker[] workers = new Worker[100];
-        Department[] departments = new Department[50];
+        List <Worker> workers = new List<Worker>();
+        List <Department> departments = new List<Department>();
         int indx=0;
         int depIndx = 0;
         
@@ -50,7 +50,7 @@ namespace WorkersControl
             if (delInx < 0 || delInx >= indx)
                 return;
 
-            for (int i = delInx; i < workers.Length - 1; i++)
+            for (int i = delInx; i < workers.Count - 1; i++)
             {
                 workers[i].Present=false;
                 workers[i] = workers[i + 1];
@@ -67,7 +67,7 @@ namespace WorkersControl
             try
             {
                 
-                for(int i=0;i<workers.Length-1;i++)
+                for(int i=0;i<workers.Count-1;i++)
                 {
                     if(workers[i]!=null)
                     if (workers[i].Name == workerToGet)
@@ -232,7 +232,7 @@ namespace WorkersControl
                                         departments[i].DeleteFromDep(workers[modIndx]);
                                     }
 
-                                    for (int i = 0; i <= departments.Length; i++)
+                                    for (int i = 0; i <= departments.Count; i++)
                                     {
                                         if (departments[i].DepartmentName == newDep)
                                             departments[i].AddToDepartment(workers[modIndx]);
