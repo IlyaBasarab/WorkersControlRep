@@ -67,10 +67,11 @@ namespace WorkersControl
             try
             {
                 
-                foreach (var item in workers)
+                for(int i=0;i<workers.Length-1;i++)
                 {
-                    if (item!=null && item.Name == workerToGet)
-                        item.ShowWorker();
+                    if(workers[i]!=null)
+                    if (workers[i].Name == workerToGet)
+                            workers[i].ShowWorker();
                     else
                         Console.WriteLine("No such profile found");
                 }  

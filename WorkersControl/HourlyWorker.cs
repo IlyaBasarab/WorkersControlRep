@@ -47,7 +47,7 @@ namespace WorkersControl
 
         public override void ShowWorker()
         {
-            Console.WriteLine(name + " " + age + '\n' + "Salary : ");
+            Console.WriteLine(name + " " + age + '\n');
             CalculateSalary();
 
         }
