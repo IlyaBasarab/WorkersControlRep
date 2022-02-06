@@ -13,12 +13,7 @@ namespace WorkersControl
 
             
             WorkersDatabase workersDatabase = new WorkersDatabase();
-            workersDatabase.Start();
-
-
-
-
-            
+            workersDatabase.Start();    
         }
     }
 }
