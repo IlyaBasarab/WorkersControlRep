@@ -36,6 +36,11 @@ namespace WorkersControl
 
         }
 
+        public void Fire(int fIndx)
+        {
+            workers[fIndx].Present = false;
+            Console.WriteLine(workers[fIndx].Name +" fired.");
+        }
 
         public void Update(int index, Worker upWorker)
         {
@@ -118,8 +123,9 @@ namespace WorkersControl
                    "[2] Choose worker to get info" + '\n' +
                    "[3] View all workers" + '\n' +
                    "[4] Modify worker" + '\n' +
-                   "[5] Delete worker" + '\n'+
-                   "[6] Exit program" + '\n'
+                   "[5] Fire worker"+'\n'+
+                   "[6] Delete worker" + '\n'+
+                   "[7] Exit program" + '\n'
                    );
 
 
@@ -256,14 +262,21 @@ namespace WorkersControl
 
                         break;
 
+
                     case 5:
+
+
+
+                        break;
+
+                    case 6:
                         Console.WriteLine("Which worker index you would like to delete?" + '\n');
                         int delIndx = Int32.Parse(Console.ReadLine());
                         Delete(delIndx);
 
                         break;
 
-                    case 6:
+                    case 7:
                         flag = false;
                         break;
 
