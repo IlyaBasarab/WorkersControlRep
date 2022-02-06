@@ -6,23 +6,12 @@ using System.Threading.Tasks;
 
 namespace WorkersControl
 {
-    abstract class Worker
+    class FixedWorker : Worker
     {
         private string name;
-        private int  age;
-        private bool present;
+        private int age;
         private double rate;
-
-        public Worker(string name, int age, double rate)
-        {
-            this.name = name;
-            this.age = age;
-            this.rate = rate;
-        }
-
-        public abstract void CalculateSalary();
-        public abstract void ShowWorker();
-
+        private bool present;
 
         public string Name
         {
@@ -41,14 +30,27 @@ namespace WorkersControl
             set { rate = value; }
         }
 
-        public bool Present
+
+
+        public FixedWorker(string name, int age,double rate) : base(name, age, rate)
         {
-            get { return present; }
-            set { present = value; }
+            this.name = name;
+            this.age = age;
+            this.rate = rate;  }
+
+
+        public override void CalculateSalary()
+        {
+            Console.WriteLine( "Worker salary = "+rate*22);
+            
+        }
+        public override void ShowWorker()
+        {
+            Console.WriteLine(name + " " + age + '\n' + "Salary : ");
+            CalculateSalary();
+
         }
 
-
-        
 
     }
 

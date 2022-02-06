@@ -10,16 +10,21 @@ namespace WorkersControl
     {
 
 
-        List <Worker>  workers = new List<Worker>();
+        
+        Worker[] workers = new Worker[100];
+        Department[] departments = new Department[50];
         int indx=0;
+        int depIndx = 0;
         
 
         public void SetWorker(Worker workerToSet)
         {
             try
             {
-                workers.Add(workerToSet);
+                workers[indx] =workerToSet;
+                workerToSet.Present = true;
                 Console.WriteLine("Worker "+workerToSet.Name+ " added to database");
+                
                 indx++;
 
             }
@@ -45,9 +50,11 @@ namespace WorkersControl
             if (delInx < 0 || delInx >= indx)
                 return;
 
-            for (int i = delInx; i < workers.Count - 1; i++)
+            for (int i = delInx; i < workers.Length - 1; i++)
             {
+                workers[i].Present=false;
                 workers[i] = workers[i + 1];
+
 
             }
             indx--;
@@ -62,7 +69,7 @@ namespace WorkersControl
                 
                 foreach (var item in workers)
                 {
-                    if (item.Name == workerToGet)
+                    if (item!=null && item.Name == workerToGet)
                         item.ShowWorker();
                     else
                         Console.WriteLine("No such profile found");
@@ -82,6 +89,7 @@ namespace WorkersControl
 
                 foreach (var item in workers)
                 {
+                    if(item!=null)
                         item.ShowWorker();
                 }
 
@@ -105,12 +113,12 @@ namespace WorkersControl
             {
                 Console.WriteLine(" Choose your function:" +
                    '\n' + "Variants:" + '\n' +
-                   "[1] Enter name , year of birth, position and salary of worker to set" + '\n' +
+                   "[1] Enter worker  data to set" + '\n' +
                    "[2] Choose worker to get info" + '\n' +
                    "[3] View all workers" + '\n' +
                    "[4] Modify worker" + '\n' +
                    "[5] Delete worker" + '\n'+
-                   "[6] Exit rogram" + '\n'
+                   "[6] Exit program" + '\n'
                    );
 
 
@@ -119,21 +127,56 @@ namespace WorkersControl
                 switch (digit)
                 {
                     case 1:
-                        Console.WriteLine("Enter worker name:  "+ '\n');
+                        Console.WriteLine("Enter worker name:  ");
                         string enteredName = Console.ReadLine();
-                        Console.WriteLine("Enter worker birth year: "+'\n');
-                        int enteredYear = Int32.Parse(Console.ReadLine());
-                        Console.WriteLine("Enter worker position");
-                        string enteredPosition = Console.ReadLine();
-                        Console.WriteLine("Enter worker salary:");
-                        double enteredSalary = Double.Parse(Console.ReadLine());
+                        Console.WriteLine("Enter worker age: ");
+                        int enteredAge = Int32.Parse(Console.ReadLine());
+                        Console.WriteLine("Enter worker rate: ");
+                        double enteredRate = Double.Parse(Console.ReadLine());
+                        Console.WriteLine("Enter worker department: ");
+                        string enteredDep = Console.ReadLine();
+                        Console.WriteLine("Enter worker position:"+'\n'+
+                            "1.Fixed worker"+'\n'+
+                            "2.Hourly worker"+'\n'+
+                            "3.Trainee");
+                        int enteredPosition = Int32.Parse(Console.ReadLine());
 
-                        Worker worker = new Worker(enteredName, enteredYear, enteredPosition, enteredSalary);
 
-                        SetWorker(worker);
+                        if (enteredPosition == 1)
+                        {
+                            Worker fWorker = new FixedWorker(enteredName, enteredAge, enteredRate);
+                            SetWorker(fWorker);
+
+                            /*enteredDep ;
+
+                            fWorker to spec department 
+
+                            */
+
+                        }
+                        else if (enteredPosition == 2)
+                        {
+                            Console.WriteLine("Enter workered hours:");
+                            double enteredHours = Double.Parse(Console.ReadLine());
+                            Worker hWorker = new HourlyWorker(enteredName, enteredAge, enteredRate, enteredHours);
+                            SetWorker(hWorker);
 
 
-                        break;
+
+                        }
+                        else if (enteredPosition == 3)
+                        {
+                            Console.WriteLine("Enter workered hours:");
+                            double enteredHours = Double.Parse(Console.ReadLine());
+                            Console.WriteLine("Enter workered days:");
+                            int enteredDays = Int32.Parse(Console.ReadLine());
+                            Worker trainee = new Trainee(enteredName, enteredAge, enteredRate, enteredHours, enteredDays);
+                            SetWorker(trainee);
+
+                        }
+                
+
+  break;
 
                     case 2:
                         Console.WriteLine(@"Type worker index to get info:" + '\n');
@@ -145,7 +188,7 @@ namespace WorkersControl
 
                     case 3:
 
-                        Console.WriteLine(@"List of all workers below:" + '\n');
+                        Console.WriteLine("List of all workers below:" + '\n');
                         GetAllWorkers();
 
                         break;
@@ -154,21 +197,55 @@ namespace WorkersControl
                         try
                         {
                             Console.WriteLine("Which worker would you like to modify?" + '\n');
-                            string modIndx = Console.ReadLine();
-                            
-                            Console.WriteLine(@"Enter new worker data." + '\n');
+                            int modIndx = Int32.Parse(Console.ReadLine());
+                            if(workers[modIndx].Present){
+                                Console.WriteLine("What would you like to modify?" + '\n' +
+                                    "[1]Name" + '\n' +
+                                    "[2]Age" + '\n' +
+                                    "[3]Rate" + '\n' +
+                                    "[4]Department");
+                                int value = Int32.Parse(Console.ReadLine());
 
-                            Console.WriteLine("Enter worker name:  " + '\n');
-                            string newEnteredName = Console.ReadLine();
-                            Console.WriteLine("Enter worker birth year: " + '\n');
-                            int newEnteredYear = Int32.Parse(Console.ReadLine());
-                            Console.WriteLine("Enter worker position");
-                            string newEnteredPosition = Console.ReadLine();
-                            Console.WriteLine("Enter worker salary:");
-                            double newEnteredSalary = Double.Parse(Console.ReadLine());
-                            Worker workerMod = new Worker(newEnteredName, newEnteredYear, newEnteredPosition, newEnteredSalary);
+                                if (value == 1)
+                                {
+                                    Console.WriteLine("Enter worker's new name:  " + '\n');
+                                    workers[modIndx].Name = Console.ReadLine();
+                                }
+                                else if (value == 2)
+                                {
+                                    Console.WriteLine("Enter worker's new age: " + '\n');
+                                    workers[modIndx].Age = Int32.Parse(Console.ReadLine());
+                                }
+                                else if (value == 3)
+                                {
+                                    Console.WriteLine("Enter new worker's rate:");
+                                    workers[modIndx].Rate = Int32.Parse(Console.ReadLine());
+                                }
+                                else if (value==4)
+                                {
+                                    Console.WriteLine("Enter worker's new department");
+                                    string newDep = Console.ReadLine();
+                                    for (int i = 0; i <= depIndx; i++)
+                                    { 
+                                        if (departments[i].InDepartment(workers[modIndx]))
+                                        departments[i].DeleteFromDep(workers[modIndx]);
+                                    }
 
-                            SetWorker(workerMod);
+                                    for (int i = 0; i <= departments.Length; i++)
+                                    {
+                                        if (departments[i].DepartmentName == newDep)
+                                            departments[i].AddToDepartment(workers[modIndx]);
+                                        else
+                                        {
+                                            departments[i] =new Department(newDep);
+                                            departments[i].AddToDepartment(workers[modIndx]);
+                                            depIndx++;
+                                        }
+                                    }
+
+
+                                }
+                            }
                         }
                         catch (ArgumentException ex)
                         {
