@@ -24,8 +24,8 @@ namespace WorkersControl
         }
         public int Age
         {
-            get { return Age; }
-            set { Age = value; }
+            get { return age; }
+            set { age = value; }
 
         }
         public double Rate

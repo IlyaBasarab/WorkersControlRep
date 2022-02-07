@@ -11,7 +11,7 @@ namespace WorkersControl
          string departmentName;
         private int depIndx=0;
         
-        Worker[] department = new Worker[50];
+        List <Worker> department = new List<Worker>();
         
 
         public Department(string departmentName)
@@ -36,7 +36,7 @@ namespace WorkersControl
 
         public void DeleteFromDep(Worker worker)
         {
-            for (int i = 0; i < department.Length - 1; i++)
+            for (int i = 0; i < department.Count - 1; i++)
             {
                 if (department[i] == worker)
                     department[i] = department[i + 1];
@@ -48,7 +48,7 @@ namespace WorkersControl
 
         public bool InDepartment(Worker worker)
         {
-            for(int i = 0; i < department.Length; i++)
+            for(int i = 0; i <=department.Count; i++)
             {
                 if (department.Contains(worker))
                     return true;

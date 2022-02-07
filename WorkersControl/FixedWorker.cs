@@ -13,30 +13,10 @@ namespace WorkersControl
         private double rate;
         private bool present;
 
-        public string Name
-        {
-            get { return name; }
-            set { name = value; }
-        }
-        public int Age
-        {
-            get { return Age; }
-            set { Age = value; }
-
-        }
-        public double Rate
-        {
-            get { return rate; }
-            set { rate = value; }
-        }
-
-
-
         public FixedWorker(string name, int age,double rate) : base(name, age, rate)
         {
-            this.name = name;
-            this.age = age;
-            this.rate = rate;  }
+             
+        }
 
 
         public override void CalculateSalary()

@@ -142,6 +142,7 @@ namespace WorkersControl
                         double enteredRate = Double.Parse(Console.ReadLine());
                         Console.WriteLine("Enter worker department: ");
                         string enteredDep = Console.ReadLine();
+
                         Console.WriteLine("Enter worker position:"+'\n'+
                             "1.Fixed worker"+'\n'+
                             "2.Hourly worker"+'\n'+
@@ -151,15 +152,22 @@ namespace WorkersControl
 
                         if (enteredPosition == 1)
                         {
-                            Worker fWorker = new FixedWorker(enteredName, enteredAge, enteredRate);
+                            FixedWorker fWorker = new FixedWorker(enteredName, enteredAge, enteredRate);
+                           
                             SetWorker(fWorker);
+                            for(int i=0; i<departments.Count-1;i++)
+                            {
+                                if (departments[i].DepartmentName == enteredDep)
+                                {
+                                    departments[i].AddToDepartment(fWorker);
+                                }
+                                else
+                                {
+                                    departments[i] = new Department(enteredDep);
+                                    departments[i].AddToDepartment(fWorker);
 
-                            /*enteredDep ;
-
-                            fWorker to spec department 
-
-                            */
-
+                                }
+                            }
                         }
                         else if (enteredPosition == 2)
                         {
@@ -167,6 +175,20 @@ namespace WorkersControl
                             double enteredHours = Double.Parse(Console.ReadLine());
                             Worker hWorker = new HourlyWorker(enteredName, enteredAge, enteredRate, enteredHours);
                             SetWorker(hWorker);
+
+                            for (int i = 0; i < departments.Count - 1; i++)
+                            {
+                                if (departments[i].DepartmentName == enteredDep)
+                                {
+                                    departments[i].AddToDepartment(hWorker);
+                                }
+                                else
+                                {
+                                    departments[i] = new Department(enteredDep);
+                                    departments[i].AddToDepartment(hWorker);
+
+                                }
+                            }
 
 
 
@@ -179,6 +201,21 @@ namespace WorkersControl
                             int enteredDays = Int32.Parse(Console.ReadLine());
                             Worker trainee = new Trainee(enteredName, enteredAge, enteredRate, enteredHours, enteredDays);
                             SetWorker(trainee);
+
+                            for (int i = 0; i < departments.Count - 1; i++)
+                            {
+                                if (departments[i].DepartmentName == enteredDep)
+                                {
+                                    departments[i].AddToDepartment(trainee);
+                                }
+                                else
+                                {
+                                    departments[i] = new Department(enteredDep);
+                                    departments[i].AddToDepartment(trainee);
+
+                                }
+                            }
+
 
                         }
                 

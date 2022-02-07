@@ -31,8 +31,8 @@ namespace WorkersControl
         }
         public int Age
         {
-            get { return Age; }
-            set { Age = value; }
+            get { return age; }
+            set { age = value; }
 
         }
         public double Rate
@@ -40,7 +40,6 @@ namespace WorkersControl
             get { return rate; }
             set { rate = value; }
         }
-
         public bool Present
         {
             get { return present; }
@@ -48,7 +47,7 @@ namespace WorkersControl
         }
 
 
-        
+
 
     }
 
