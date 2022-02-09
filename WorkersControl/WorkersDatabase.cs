@@ -95,7 +95,7 @@ namespace WorkersControl
 
                 foreach (var item in workers)
                 {
-                    if(item!=null)
+                    if(item!=null&& item.Present)
                         item.ShowWorker();
                 }
 
