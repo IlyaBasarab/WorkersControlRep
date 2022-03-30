@@ -9,7 +9,7 @@ namespace WorkersControl
     class WorkersDatabase
     {
 
-
+        DatabaseOptions options=new DatabaseOptions();
         
         List <Worker> workers = new List<Worker>();
         List <Department> departments = new List<Department>();
@@ -23,6 +23,7 @@ namespace WorkersControl
             {
                 workers[indx] =workerToSet;
                 workerToSet.Present = true;
+                options.AddWorkerToDB(workerToSet);
                 Console.WriteLine("Worker "+workerToSet.Name+ " added to database");
                 
                 indx++;
@@ -69,22 +70,23 @@ namespace WorkersControl
 
         public void GetWorker(string workerToGet)
         {
-            try
-            {
-                
-                for(int i=0;i<workers.Count-1;i++)
-                {
-                    if(workers[i]!=null)
-                    if (workers[i].Name == workerToGet)
-                            workers[i].ShowWorker();
-                    else
-                        Console.WriteLine("No such profile found");
-                }  
-            }
-            catch (ArgumentException ex)
-            {
-                Console.WriteLine(ex);
-            }
+
+            options.GetWorker(workerToGet);
+            //try
+            //{
+            //    for(int i=0;i<workers.Count-1;i++)
+            //    {
+            //        if(workers[i]!=null)
+            //        if (workers[i].Name == workerToGet)
+            //                workers[i].ShowWorker();
+            //        else
+            //            Console.WriteLine("No such profile found");
+            //    }  
+            //}
+            //catch (ArgumentException ex)
+            //{
+            //    Console.WriteLine(ex);
+            //}
             
         }
 
@@ -92,12 +94,13 @@ namespace WorkersControl
         {
             try
             {
+                options.GetAllWorkers();
 
-                foreach (var item in workers)
-                {
-                    if(item!=null&& item.Present)
-                        item.ShowWorker();
-                }
+                //foreach (var item in workers)
+                //{
+                //    if(item!=null&& item.Present)
+                //        item.ShowWorker();
+                //}
 
             }
             catch (ArgumentException ex)
@@ -163,7 +166,7 @@ namespace WorkersControl
                                 }
                                 else
                                 {
-                                    departments[i] = new Department(enteredDep);
+                                    departments[i] = new Department(enteredDep,i);
                                     departments[i].AddToDepartment(fWorker);
 
                                 }
@@ -184,7 +187,7 @@ namespace WorkersControl
                                 }
                                 else
                                 {
-                                    departments[i] = new Department(enteredDep);
+                                    departments[i] = new Department(enteredDep,i);
                                     departments[i].AddToDepartment(hWorker);
 
                                 }
@@ -210,7 +213,7 @@ namespace WorkersControl
                                 }
                                 else
                                 {
-                                    departments[i] = new Department(enteredDep);
+                                    departments[i] = new Department(enteredDep,i);
                                     departments[i].AddToDepartment(trainee);
 
                                 }
@@ -281,7 +284,7 @@ namespace WorkersControl
                                             departments[i].AddToDepartment(workers[modIndx]);
                                         else
                                         {
-                                            departments[i] =new Department(newDep);
+                                            departments[i] =new Department(newDep,i);
                                             departments[i].AddToDepartment(workers[modIndx]);
                                             depIndx++;
                                         }

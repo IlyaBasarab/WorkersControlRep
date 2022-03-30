@@ -9,14 +9,16 @@ namespace WorkersControl
     class Department
     {
          string departmentName;
-        private int depIndx=0;
+        int departmentId;
+        public int depIndx=0;
         
         List <Worker> department = new List<Worker>();
         
 
-        public Department(string departmentName)
+        public Department(string departmentName, int departmentId)
         {
             this.departmentName = departmentName;
+            this.departmentId = departmentId;
         }
 
         public string DepartmentName
@@ -29,8 +31,10 @@ namespace WorkersControl
 
         public void AddToDepartment(Worker worker)
         {
-            department[depIndx]=worker;            
+            department[depIndx]=worker; 
+            
             Console.WriteLine("Worker added to department");
+            worker.dep_id= departmentId;
             depIndx++;
         }
 

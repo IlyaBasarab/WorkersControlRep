@@ -6,17 +6,15 @@ using System.Threading.Tasks;
 
 namespace WorkersControl
 {
-    class Trainee : Worker
+    class HourlyWorker : Worker
     {
 
         public string name;
         public int age;
-        public double rate;        
+        public double rate;
         public double hours;
-        public int days;
-        public bool present;
-
-
+        public int pos_id = 2;
+        public int dep_id;
         public string Name
         {
             get { return name; }
@@ -34,18 +32,19 @@ namespace WorkersControl
             set { rate = value; }
         }
 
-        public Trainee(string name,  int age, double rate, double hours, int days) : base(name, age, rate)
+
+        public HourlyWorker(string name,int age, double rate, double hours) : base(name, age,rate)
         {
             this.name = name;
             this.age = age;
             this.rate = rate;
-            this.hours=hours;
-            this.days = days;
+            this.hours = hours;
         }
 
-        public override void CalculateSalary()
+        public override double CalculateSalary()
         {
-            Console.WriteLine("Trainee salary = " + rate* hours * days);
+            //Console.WriteLine("Hourly worker salary = " + rate *hours* 22);
+            return rate * hours * 22;
         }
 
         public override void ShowWorker()

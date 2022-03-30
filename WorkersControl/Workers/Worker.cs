@@ -12,6 +12,9 @@ namespace WorkersControl
         private int  age;
         private bool present;
         private double rate;
+        public int worker_id;
+        public int pos_id;
+        public int dep_id;
 
         public Worker(string name, int age, double rate)
         {
@@ -20,7 +23,7 @@ namespace WorkersControl
             this.rate = rate;
         }
 
-        public abstract void CalculateSalary();
+        public abstract double CalculateSalary();
         public abstract void ShowWorker();
 
 
