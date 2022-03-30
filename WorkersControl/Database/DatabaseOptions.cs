@@ -70,7 +70,38 @@ namespace WorkersControl
             }
         }
 
-        //worker
+        public bool MentorExist(Mentor mentor)
+        {
+            try
+            {
+                connection.Open();
+
+                String sql = "SELECT mentor.name  FROM mentor WHERE mentor.name= '" + mentor.Name +"' AND mentor.id = "+ mentor.Mentor_Id +" ;";
+
+                MySqlCommand command = new MySqlCommand(sql, connection);
+                MySqlDataReader reader = command.ExecuteReader();
+
+                if (reader.Read())
+                {
+                    connection.Close();
+                    return true;
+                }
+                else
+                {
+                    connection.Close();
+                    return false;
+                }
+
+
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("An error occured: " + ex);
+                return false;
+            }
+        }
+
 
         public void AddWorkerToDB(Worker worker)
         {
@@ -196,7 +227,6 @@ namespace WorkersControl
 
         }
 
-        //department
 
         public void AddDepartment(Department department) 
         {
@@ -224,7 +254,55 @@ namespace WorkersControl
             };
         }
 
+        public void AddMentor(Mentor mentor)
+        {
+            try
+            {
+                if (!MentorExist(mentor))
+                {
+                    connection.Open();
+                    String sql = "INSERT INTO mentor (id, name)  values (" + mentor.Mentor_Id + ", '" + mentor.Name + "' );";
 
+                    MySqlCommand command = new MySqlCommand(sql, connection);
+                    command.ExecuteNonQuery();
+                    connection.Close();
+                }
+                else
+                {
+                    Console.WriteLine("Worker already exist.");
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error: " + ex);
+            };
+
+
+        }
+
+        public void UpdateWorkerMentor(Mentor mentor,Worker worker)
+        {
+            try
+            {
+                if (WorkerExist(worker) && MentorExist(mentor))
+                {
+                    connection.Open();
+                    String sql = "INSERT INTO workermentor(workerId, mentorId) values(" + worker.worker_id + ", " + mentor.Mentor_Id + " );";
+
+                    MySqlCommand command = new MySqlCommand(sql, connection);
+                    command.ExecuteNonQuery();
+
+
+                    connection.Close();
+                }
+
+            }
+            catch (Exception ex)
+            { Console.WriteLine("Error: " + ex); }
+
+        }
 
 
 

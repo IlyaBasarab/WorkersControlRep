@@ -48,10 +48,6 @@ namespace WorkersControl
             get { return present; }
             set { present = value; }
         }
-
-
-
-
     }
 
 }
