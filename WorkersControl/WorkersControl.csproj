@@ -44,8 +44,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Database\DatabaseOptions.cs" />
+    <Compile Include="DAL\DatabaseOptions.cs" />
     <Compile Include="Department.cs" />
+    <Compile Include="UI\UInterface.cs" />
     <Compile Include="Workers\FixedWorker.cs" />
     <Compile Include="Workers\HourlyWorker.cs" />
     <Compile Include="Program.cs" />

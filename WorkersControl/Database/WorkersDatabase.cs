@@ -10,6 +10,7 @@ namespace WorkersControl
     {
 
         DatabaseOptions options=new DatabaseOptions();
+        UInterface menu = new UInterface();
         
         List <Worker> workers = new List<Worker>();
         List <Department> departments = new List<Department>();
@@ -21,13 +22,9 @@ namespace WorkersControl
         {
             try
             {
-                workers[indx] =workerToSet;
-                workerToSet.Present = true;
                 options.AddWorkerToDB(workerToSet);
                 Console.WriteLine("Worker "+workerToSet.Name+ " added to database");
                 
-                indx++;
-
             }
             catch (ArgumentException ex)
             {
@@ -120,19 +117,10 @@ namespace WorkersControl
 
             while (flag)
             {
-                Console.WriteLine(" Choose your function:" +
-                   '\n' + "Variants:" + '\n' +
-                   "[1] Enter worker  data to set" + '\n' +
-                   "[2] Choose worker to get info" + '\n' +
-                   "[3] View all workers" + '\n' +
-                   "[4] Modify worker" + '\n' +
-                   "[5] Fire worker"+'\n'+
-                   "[6] Delete worker" + '\n'+
-                   "[7] Exit program" + '\n'
-                   );
+               
 
 
-                digit = Int16.Parse(Console.ReadLine());
+                digit = menu.UserMenu();
 
                 switch (digit)
                 {

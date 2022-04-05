@@ -305,6 +305,61 @@ namespace WorkersControl
         }
 
 
+        //group by
+
+        public void GetTrainees()
+        {
+            try
+            {
+                connection.Open();
+
+                String sql = "SELECT w2.name AS employee, w1.name AS teamLead FROM worker w1 INNER JOIN worker w2 ON w1.id = w2.parent_id GROUP BY w2.name";
+
+                MySqlCommand command = new MySqlCommand(sql, connection);
+                MySqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    Console.WriteLine("{0} - {1}", reader.GetString(0), reader.GetString(1));
+                }
+                connection.Close();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("An error occured: " + ex);
+            }
+        }
+
+        //having
+
+        public void GetMentorTraineesInfo(Worker mentor)
+        {
+            try
+            {
+                connection.Open();
+
+                String sql = "SELECT w1.name, w1.age, position.title FROM worker AS w1 INNER JOIN worker w2 ON w1.id = w2.parent_id INNER JOIN position ON w1.pos_id = position.id HAVING w1.name IN('" + mentor.Name +"')";
+
+                MySqlCommand command = new MySqlCommand(sql, connection);
+                MySqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    Console.WriteLine("{0} - {1} , {2}", reader.GetString(0), reader.GetString(1), reader.GetString(2));
+                }
+                connection.Close();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("An error occured: " + ex);
+            }
+
+            
+
+        }
+
+
+        
+
+
 
     }
 }
