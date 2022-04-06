@@ -9,20 +9,20 @@ namespace WorkersControl
     class WorkersDatabase
     {
 
-        DatabaseOptions options=new DatabaseOptions();
+        DataAccessObject dao=new DataAccessObject();
         UInterface menu = new UInterface();
-        
-        List <Worker> workers = new List<Worker>();
-        List <Department> departments = new List<Department>();
-        int indx=0;
-        int depIndx = 0;
+
+        //List<Worker> workers = new List<Worker>();
+        //List<Department> departments = new List<Department>();
+        //int indx=0;
+        //int depIndx = 0;
         
 
         public void SetWorker(Worker workerToSet)
         {
             try
             {
-                options.AddWorkerToDB(workerToSet);
+                dao.AddWorkerToDB(workerToSet);
                 Console.WriteLine("Worker "+workerToSet.Name+ " added to database");
                 
             }
@@ -32,66 +32,57 @@ namespace WorkersControl
             }
 
 
-        }
+        } //+
 
         public void Fire(int fIndx)
         {
-            workers[fIndx].Present = false;
-            Console.WriteLine(workers[fIndx].Name +" fired.");
+            //workers[fIndx].Present = false;
+            //Console.WriteLine(workers[fIndx].Name +" fired.");
         }
 
         public void Update(int index, Worker upWorker)
         {
-            workers [index] = upWorker;
+           // workers [index] = upWorker;
 
         }
 
 
 
-        public void Delete(int delInx)
+        public void Delete(int worker)
         {
-            if (delInx < 0 || delInx >= indx)
-                return;
-
-            for (int i = delInx; i < workers.Count - 1; i++)
+            try
             {
-                workers[i].Present=false;
-                workers[i] = workers[i + 1];
-
-
+                dao.DeleteWorker(worker);
+                Console.WriteLine("Worker with Id: " + worker+ " deleted");
             }
-            indx--;
+            catch (ArgumentException ex)
+            {
+                Console.WriteLine("An error occured: "+ ex);
+            }
 
-        }
+        }//+
 
 
-        public void GetWorker(string workerToGet)
+        public void GetWorker(int workerIDToGet)
         {
 
-            options.GetWorker(workerToGet);
-            //try
-            //{
-            //    for(int i=0;i<workers.Count-1;i++)
-            //    {
-            //        if(workers[i]!=null)
-            //        if (workers[i].Name == workerToGet)
-            //                workers[i].ShowWorker();
-            //        else
-            //            Console.WriteLine("No such profile found");
-            //    }  
-            //}
-            //catch (ArgumentException ex)
-            //{
-            //    Console.WriteLine(ex);
-            //}
             
-        }
+            try
+            {
+                dao.GetWorker(workerIDToGet);
+            }
+            catch (ArgumentException ex)
+            {
+                Console.WriteLine(ex);
+            }
+
+        } //+
 
         public void GetAllWorkers()
         {
             try
             {
-                options.GetAllWorkers();
+                dao.GetAllWorkers();
 
                 //foreach (var item in workers)
                 //{
@@ -117,105 +108,20 @@ namespace WorkersControl
 
             while (flag)
             {
-               
-
-
-                digit = menu.UserMenu();
+                digit = menu.MainMenu();
 
                 switch (digit)
                 {
                     case 1:
-                        Console.WriteLine("Enter worker name:  ");
-                        string enteredName = Console.ReadLine();
-                        Console.WriteLine("Enter worker age: ");
-                        int enteredAge = Int32.Parse(Console.ReadLine());
-                        Console.WriteLine("Enter worker rate: ");
-                        double enteredRate = Double.Parse(Console.ReadLine());
-                        Console.WriteLine("Enter worker department: ");
-                        string enteredDep = Console.ReadLine();
 
-                        Console.WriteLine("Enter worker position:"+'\n'+
-                            "1.Fixed worker"+'\n'+
-                            "2.Hourly worker"+'\n'+
-                            "3.Trainee");
-                        int enteredPosition = Int32.Parse(Console.ReadLine());
+                        Worker worker = menu.SetNewWorkerMenu();
+                        SetWorker( worker);
 
-
-                        if (enteredPosition == 1)
-                        {
-                            FixedWorker fWorker = new FixedWorker(enteredName, enteredAge, enteredRate);
-                           
-                            SetWorker(fWorker);
-                            for(int i=0; i<departments.Count-1;i++)
-                            {
-                                if (departments[i].DepartmentName == enteredDep)
-                                {
-                                    departments[i].AddToDepartment(fWorker);
-                                }
-                                else
-                                {
-                                    departments[i] = new Department(enteredDep,i);
-                                    departments[i].AddToDepartment(fWorker);
-
-                                }
-                            }
-                        }
-                        else if (enteredPosition == 2)
-                        {
-                            Console.WriteLine("Enter workered hours:");
-                            double enteredHours = Double.Parse(Console.ReadLine());
-                            Worker hWorker = new HourlyWorker(enteredName, enteredAge, enteredRate, enteredHours);
-                            SetWorker(hWorker);
-
-                            for (int i = 0; i < departments.Count - 1; i++)
-                            {
-                                if (departments[i].DepartmentName == enteredDep)
-                                {
-                                    departments[i].AddToDepartment(hWorker);
-                                }
-                                else
-                                {
-                                    departments[i] = new Department(enteredDep,i);
-                                    departments[i].AddToDepartment(hWorker);
-
-                                }
-                            }
-
-
-
-                        }
-                        else if (enteredPosition == 3)
-                        {
-                            Console.WriteLine("Enter workered hours:");
-                            double enteredHours = Double.Parse(Console.ReadLine());
-                            Console.WriteLine("Enter workered days:");
-                            int enteredDays = Int32.Parse(Console.ReadLine());
-                            Worker trainee = new Trainee(enteredName, enteredAge, enteredRate, enteredHours, enteredDays);
-                            SetWorker(trainee);
-
-                            for (int i = 0; i < departments.Count - 1; i++)
-                            {
-                                if (departments[i].DepartmentName == enteredDep)
-                                {
-                                    departments[i].AddToDepartment(trainee);
-                                }
-                                else
-                                {
-                                    departments[i] = new Department(enteredDep,i);
-                                    departments[i].AddToDepartment(trainee);
-
-                                }
-                            }
-
-
-                        }
-                
-
-  break;
+                        break;
 
                     case 2:
-                        Console.WriteLine(@"Type worker index to get info:" + '\n');
-                        string inprofile = Console.ReadLine();
+                        Console.WriteLine(@"Type worker ID to get info:" + '\n');
+                        int inprofile = Convert.ToInt32(Console.ReadLine());
                         GetWorker(inprofile);
 
 
@@ -231,63 +137,17 @@ namespace WorkersControl
                     case 4:
                         try
                         {
-                            Console.WriteLine("Which worker would you like to modify?" + '\n');
+                            Console.WriteLine("Type worker ID to modify:" + '\n');
                             int modIndx = Int32.Parse(Console.ReadLine());
-                            if(workers[modIndx].Present){
-                                Console.WriteLine("What would you like to modify?" + '\n' +
-                                    "[1]Name" + '\n' +
-                                    "[2]Age" + '\n' +
-                                    "[3]Rate" + '\n' +
-                                    "[4]Department");
-                                int value = Int32.Parse(Console.ReadLine());
+                            if(dao.WorkerExist(modIndx)){
 
-                                if (value == 1)
-                                {
-                                    Console.WriteLine("Enter worker's new name:  " + '\n');
-                                    workers[modIndx].Name = Console.ReadLine();
-                                }
-                                else if (value == 2)
-                                {
-                                    Console.WriteLine("Enter worker's new age: " + '\n');
-                                    workers[modIndx].Age = Int32.Parse(Console.ReadLine());
-                                }
-                                else if (value == 3)
-                                {
-                                    Console.WriteLine("Enter new worker's rate:");
-                                    workers[modIndx].Rate = Int32.Parse(Console.ReadLine());
-                                }
-                                else if (value==4)
-                                {
-                                    Console.WriteLine("Enter worker's new department");
-                                    string newDep = Console.ReadLine();
-                                    for (int i = 0; i <= depIndx; i++)
-                                    { 
-                                        if (departments[i].InDepartment(workers[modIndx]))
-                                        departments[i].DeleteFromDep(workers[modIndx]);
-                                    }
-
-                                    for (int i = 0; i <= departments.Count; i++)
-                                    {
-                                        if (departments[i].DepartmentName == newDep)
-                                            departments[i].AddToDepartment(workers[modIndx]);
-                                        else
-                                        {
-                                            departments[i] =new Department(newDep,i);
-                                            departments[i].AddToDepartment(workers[modIndx]);
-                                            depIndx++;
-                                        }
-                                    }
-
-
-                                }
+                                dao.UpdateWorker(modIndx, menu.UpdateWorkerMenu(dao.GetWorker(modIndx)));   
                             }
                         }
                         catch (ArgumentException ex)
                         {
                             Console.WriteLine("Invalid worker profile");
                         }
-
-
                         break;
 
 
@@ -298,9 +158,13 @@ namespace WorkersControl
                         break;
 
                     case 6:
-                        Console.WriteLine("Which worker index you would like to delete?" + '\n');
-                        int delIndx = Int32.Parse(Console.ReadLine());
-                        Delete(delIndx);
+                        try {
+
+                            Console.WriteLine("Type worker ID you would like to delete?" + '\n');
+                            int workerDel = Int32.Parse(Console.ReadLine());
+                            Delete(workerDel);
+                            }
+                        catch(Exception ex) { Console.WriteLine("An error occured: " + ex); };
 
                         break;
 

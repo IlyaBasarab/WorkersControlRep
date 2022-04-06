@@ -9,13 +9,14 @@ using MySql.Data.MySqlClient;
 
 namespace WorkersControl
 {
-    internal class DatabaseOptions
+    internal class DataAccessObject
     {
         static string DBConnectionString = "DataSource = 127.0.0.1;port = 3306; username=root; password=;database=company";
         static MySqlConnection connection = new MySqlConnection(DBConnectionString);
 
-
-        public static bool WorkerExist(Worker worker)
+        /// exist
+       
+        public  bool WorkerExist(Worker worker)
         {
             try
             {
@@ -38,8 +39,34 @@ namespace WorkersControl
                 return false;
             }
         }
+        public bool WorkerExist(int workerID)
+        {
+            try
+            {
+                connection.Open();
 
-        public static bool DepartmentExist(Department department)
+                String sql = "SELECT worker.name, worker.salary, position.id FROM worker, position WHERE worker.pos_id = position.id AND worker.id=" + workerID + ";";
+
+                MySqlCommand command = new MySqlCommand(sql, connection);
+                MySqlDataReader reader = command.ExecuteReader();
+
+                if (reader.Read())
+                {
+                    connection.Close();
+                    return true;
+                }
+                return false;
+                
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("An error occured: " + ex);
+                return false;
+            }
+        }
+
+        public bool DepartmentExist(Department department)
         {
             try
             {
@@ -61,6 +88,37 @@ namespace WorkersControl
                 }
                 
                 
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("An error occured: " + ex);
+                return false;
+            }
+        }
+        public bool DepartmentExist(string depName)
+        {
+            try
+            {
+                connection.Open();
+
+                String sql = "SELECT department.tytle  FROM department WHERE department.title= '" + depName + "' ;";
+
+                MySqlCommand command = new MySqlCommand(sql, connection);
+                MySqlDataReader reader = command.ExecuteReader();
+
+                if (reader.Read())
+                {
+                    connection.Close();
+                    return true;
+                }
+                else
+                {
+                    connection.Close();
+                    return false;
+                }
+
+
 
             }
             catch (Exception ex)
@@ -101,7 +159,8 @@ namespace WorkersControl
                 return false;
             }
         }
-
+        
+        ///
 
         public void AddWorkerToDB(Worker worker)
         {
@@ -132,8 +191,6 @@ namespace WorkersControl
             };
 
         }
-
-
         public void GetAllWorkers()
         {
             try
@@ -156,29 +213,43 @@ namespace WorkersControl
             }
 
         }
-
-
-        public void GetWorker(string name)
+        public Worker GetWorker(int ID)
         {
             try
             {
                 connection.Open();
 
-                String sql = "SELECT worker.name, worker.salary, position.title FROM worker, position WHERE worker.pos_id = position.id AND worker.name="+name;
+                String sql = "SELECT worker.name, worker.age,  worker.salary, position.id  FROM worker, position WHERE worker.pos_id = position.id AND worker.id= "+ID;
 
                 MySqlCommand command = new MySqlCommand(sql, connection);
                 MySqlDataReader reader = command.ExecuteReader();
+                Worker worker = null;
                 while (reader.Read())
                 {
-                    Console.WriteLine("{0} {1} {2}", reader.GetString(0), reader.GetString(1), reader.GetString(2));
+
+                    worker = new FixedWorker(reader.GetString(0), reader.GetInt32(1), reader.GetDouble(2));
+                    return worker;
+
+                    //if (reader.GetInt32(3)==1)
+                    //{
+                    //    worker = new FixedWorker(reader.GetString(0),reader.GetInt32(1),reader.GetDouble(2));
+                    //    return worker;
+                    //}
+                    //else if (reader.GetInt32(3)==2)
+                    //{
+                    //    worker = new HourlyWorker(reader.GetString(0), reader.GetInt32(1), reader.GetDouble(2),);
+                    //}
+                    //Console.WriteLine("{0} {1} {2}", reader.GetString(0), reader.GetString(1), reader.GetString(2));
+
                 }
+               
                 connection.Close();
             }
             catch (Exception ex)
             {
                 Console.WriteLine("An error occured: " + ex);
             }
-
+            return null;
         }
 
         public void AddToDepartment(Department department, Worker worker)
@@ -202,24 +273,39 @@ namespace WorkersControl
             { Console.WriteLine("Error: "+ ex);}
         }
 
-        public void DeleteWorker(Worker worker)
+        public void UpdateWorker(int ID, Worker worker)
         {
             try
             {
-                if (WorkerExist(worker))
+                if (WorkerExist(ID))
                 {
                     connection.Open();
-                    String sql = "DELETE FROM  worker WHERE worker.name = '" + worker.Name + "';";
-
-                    MySqlCommand command = new MySqlCommand(sql, connection);
+                    String sql = "UPDATE worker SET worker.name = '" + worker.Name + "', worker.age =" + worker.Age + ", worker.salary = "+ worker.CalculateSalary()+" WHERE worker.id =" + ID + "; ";
+                    
+                        MySqlCommand command = new MySqlCommand(sql, connection);
                     command.ExecuteNonQuery();
 
 
                     connection.Close();
                 }
-                else
-                {
-                    Console.WriteLine("Worker not found.");
+
+            }
+            catch (Exception ex)
+            { Console.WriteLine("Error: " + ex); }
+
+        }
+
+        public void DeleteWorker(int workerId)
+        {
+            try
+            {
+                if (WorkerExist(workerId)) { 
+                connection.Open();
+                String sql = "DELETE FROM  worker WHERE worker.id = '" + workerId + "';";
+
+                MySqlCommand command = new MySqlCommand(sql, connection);
+                command.ExecuteNonQuery();
+                connection.Close();
                 }
             }
             catch(Exception ex)
@@ -337,7 +423,7 @@ namespace WorkersControl
             {
                 connection.Open();
 
-                String sql = "SELECT w1.name, w1.age, position.title FROM worker AS w1 INNER JOIN worker w2 ON w1.id = w2.parent_id INNER JOIN position ON w1.pos_id = position.id HAVING w1.name IN('" + mentor.Name +"')";
+                String sql = "SELECT w1.name, w1.age, position.title FROM worker AS w1 INNER JOIN worker AS w2 ON w1.id = w2.parent_id INNER JOIN position ON w1.pos_id = position.id HAVING w1.name IN('" + mentor.Name +"')";
 
                 MySqlCommand command = new MySqlCommand(sql, connection);
                 MySqlDataReader reader = command.ExecuteReader();

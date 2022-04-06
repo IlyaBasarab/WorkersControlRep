@@ -12,7 +12,7 @@ namespace WorkersControl
         private int age;
         private double rate;
         private bool present;
-        public int pos_id = 1;
+        public int pos_id=1;
         public int dep_id;
 
 

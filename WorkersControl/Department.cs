@@ -8,7 +8,7 @@ namespace WorkersControl
 {
     class Department
     {
-         string departmentName;
+        string departmentName;
         int departmentId;
         public int depIndx=0;
         
