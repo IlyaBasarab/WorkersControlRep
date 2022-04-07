@@ -153,6 +153,22 @@ namespace WorkersControl
 
                     case 5:
 
+                        int infoChoise=menu.WorkerInfoMenu();
+                        switch(infoChoise)
+                        {
+                            case 1:
+                                dao.GetWorkersTotalCartPrice();
+                                break;
+                            case 2:
+                                dao.GetTrainees();
+                                break;
+                            case 3:
+                                dao.GetCatCountByDep();
+                                break;
+                            default:
+                                break;
+                        }
+
 
 
                         break;

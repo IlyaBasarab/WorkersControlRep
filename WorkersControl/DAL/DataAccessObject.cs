@@ -390,9 +390,6 @@ namespace WorkersControl
 
         }
 
-
-        //group by
-
         public void GetTrainees()
         {
             try
@@ -415,7 +412,40 @@ namespace WorkersControl
             }
         }
 
-        //having
+        public void GetWorkersTotalCartPrice()
+        {
+            try
+            {
+                connection.Open();
+
+                String sql = "SELECT worker.id, worker.name,position.title, department.title,(product.price*buyitem_id.quantity) AS totalprice " +
+                    "FROM shopping_cart " +
+                    "INNER JOIN worker " +
+                    "ON shopping_cart.worker_id=worker.id " +
+                    "INNER JOIN position " +
+                    "ON worker.pos_id = position.id " +
+                    "INNER JOIN department " +
+                    "ON worker.dep_id= department.id " +
+                    "INNER JOIN buyitem_id " +
+                    "ON shopping_cart.buyitem_id=buyitem_id.id " +
+                    "INNER join product " +
+                    "ON buyitem_id.product_id=product.id " +
+                    "GROUP BY worker.name " +
+                    "ORDER BY `totalprice`;";
+
+                MySqlCommand command = new MySqlCommand(sql, connection);
+                MySqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    Console.WriteLine("{0} , {1} - {2}, {3} - {4}", reader.GetInt32(0), reader.GetString(1), reader.GetString(2), reader.GetString(3), reader.GetDouble(4));
+                }
+                connection.Close();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("An error occured: " + ex);
+            }
+        }
 
         public void GetMentorTraineesInfo(Worker mentor)
         {
@@ -440,6 +470,36 @@ namespace WorkersControl
 
             
 
+        }
+
+        public void GetCatCountByDep()
+        {
+            try
+            {
+                connection.Open();
+
+                String sql = "SELECT department.title, category.title,COUNT(category.id) AS count FROM department " +
+                    "INNER JOIN worker ON worker.dep_id = department.id" +
+                    "INNER JOIN workerorders" +
+                    "ON  worker.id = workerorders.worker_id" +
+                    "INNER JOIN product" +
+                    "ON workerorders.product_id = product.id" +
+                    "INNER JOIN category" +
+                    "ON product.cat_id = category.id" +
+                    "GROUP BY category.title";
+
+                MySqlCommand command = new MySqlCommand(sql, connection);
+                MySqlDataReader reader = command.ExecuteReader();
+                while (reader.Read())
+                {
+                    Console.WriteLine("{0} - {1}, {2}", reader.GetString(0), reader.GetString(1), reader.GetInt32(2));
+                }
+                connection.Close();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("An error occured: " + ex);
+            }
         }
 
 

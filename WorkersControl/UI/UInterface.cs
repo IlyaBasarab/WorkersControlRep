@@ -68,9 +68,9 @@ namespace WorkersControl
         public int WorkerInfoMenu()
         {
             Console.WriteLine("Variants:" + '\n' +
-                  "[1] Get average cart price by worker ID " + '\n' +
+                  "[1] Get total cart price by worker " + '\n' +
                   "[2] Show employees who has mentor(with mentor's info)" + '\n' +
-                  "[3]  " + '\n' 
+                  "[3] Show count of products for departments by category  " + '\n' 
                   );
             int infoChoise = Convert.ToInt32(Console.ReadLine());
             return infoChoise;
