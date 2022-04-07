@@ -47,14 +47,14 @@
     <Compile Include="DAL\DataAccessObject.cs" />
     <Compile Include="Department.cs" />
     <Compile Include="UI\UInterface.cs" />
-    <Compile Include="Workers\FixedWorker.cs" />
-    <Compile Include="Workers\HourlyWorker.cs" />
+    <Compile Include="program\Workers\FixedWorker.cs" />
+    <Compile Include="program\Workers\HourlyWorker.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Workers\Mentor.cs" />
-    <Compile Include="Workers\Trainee.cs" />
-    <Compile Include="Workers\Worker.cs" />
-    <Compile Include="Database\WorkersDatabase.cs" />
+    <Compile Include="program\Workers\Mentor.cs" />
+    <Compile Include="program\Workers\Trainee.cs" />
+    <Compile Include="program\Workers\Worker.cs" />
+    <Compile Include="program\WorkersDatabase.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
