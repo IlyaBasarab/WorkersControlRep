@@ -8,12 +8,12 @@ namespace WorkersControl
 {
     class FixedWorker : Worker
     {
-        private string name;
-        private int age;
-        private double rate;
+        public string name;
+        public int age;
+        public double rate;
         private bool present;
-        public int pos_id=1;
-        public int dep_id;
+        private int pos_id=1;
+        private int dep_id;
 
 
         public FixedWorker(string name, int age,double rate) : base(name, age, rate)

@@ -11,12 +11,12 @@ namespace WorkersControl
 
         public string name;
         public int age;
-        public double rate;        
-        public double hours;
-        public int days;
-        public bool present;
-        public int pos_id = 3;
-        public int dep_id;
+        public double rate;
+        private double hours;
+        private int days;
+        private bool present;
+        private int pos_id = 3;
+        private int dep_id;
 
 
         public string Name

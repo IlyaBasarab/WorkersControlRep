@@ -12,9 +12,9 @@ namespace WorkersControl
         public string name;
         public int age;
         public double rate;
-        public double hours;
-        public int pos_id = 2;
-        public int dep_id;
+        private double hours;
+        private int pos_id = 2;
+        private int dep_id;
         public string Name
         {
             get { return name; }
