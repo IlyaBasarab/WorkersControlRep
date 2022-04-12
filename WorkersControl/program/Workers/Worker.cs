@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace WorkersControl
 {
-    abstract class Worker
+    public abstract class Worker
     {
         private string name;
         private int  age;

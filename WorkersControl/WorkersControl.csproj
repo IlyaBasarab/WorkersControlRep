@@ -45,6 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DAL\DataAccessObject.cs" />
+    <Compile Include="DAL\XMLSerializer.cs" />
     <Compile Include="Department.cs" />
     <Compile Include="UI\UInterface.cs" />
     <Compile Include="program\Workers\FixedWorker.cs" />

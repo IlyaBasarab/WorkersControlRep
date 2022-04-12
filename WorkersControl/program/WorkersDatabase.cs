@@ -131,6 +131,7 @@ namespace WorkersControl
 
                         Console.WriteLine("List of all workers below:" + '\n');
                         GetAllWorkers();
+                        Console.WriteLine("");
 
                         break;
 
